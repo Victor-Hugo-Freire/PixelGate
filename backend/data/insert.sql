@@ -91,3 +91,20 @@ INSERT INTO library (user_id, game_id, added_at) VALUES
   (1, 5, '2025-09-16 12:31:00'),
   (1, 6, '2025-09-16 12:32:00'),
   (1, 15, '2025-09-16 12:33:00');
+
+INSERT INTO game_details (game_id, min_requirements, recommended_requirements) VALUES
+  (1, 'Windows 10, i5-8400, 12GB RAM, GTX 1070', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
+  (2, 'Windows 7, i3-2100, 4GB RAM, GTX 460', 'Windows 10, i5-2500K, 8GB RAM, GTX 770'),
+  (3, 'Windows 10, i5-8400, 8GB RAM, GTX 970', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
+  (4, 'Windows 8, i5-2400, 8GB RAM, GTX 660', 'Windows 10, i7-3770, 16GB RAM, GTX 1070'),
+  (5, 'Windows 10, i5-2500K, 8GB RAM, GTX 970', 'Windows 10, i7-3770, 16GB RAM, RTX 2070'),
+  (6, 'Windows 10, i5-8400, 8GB RAM, GTX 1060', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
+  (7, 'Windows 7, i3-2100, 4GB RAM, GTX 560', 'Windows 10, i5-2500K, 8GB RAM, GTX 970'),
+  (8, 'Windows 7, i5-2500, 4GB RAM, GTX 660', 'Windows 10, i5-4690K, 8GB RAM, GTX 970'),
+  (9, 'Windows XP, Pentium 4, 2GB RAM, Geforce 6600', 'Windows 10, i5-2400, 8GB RAM, GTX 660'),
+  (10, 'Windows 10, i5-8400, 8GB RAM, GTX 970', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
+  (11, 'Windows 7, i3-2100, 2GB RAM, Intel HD 4000', 'Windows 10, i5-2400, 4GB RAM, GTX 650'),
+  (12, 'Windows 7, i3-2100, 2GB RAM, Intel HD 4000', 'Windows 10, i5-2400, 4GB RAM, GTX 650'),
+  (13, 'Windows 7, i5-2400, 8GB RAM, GTX 660', 'Windows 10, i7-3770, 16GB RAM, GTX 970'),
+  (14, 'Windows 10, i5-8400, 12GB RAM, GTX 1060', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
+  (15, 'Windows 10, i5-2500K, 8GB RAM, GTX 970', 'Windows 10, i7-3770, 16GB RAM, RTX 2070');

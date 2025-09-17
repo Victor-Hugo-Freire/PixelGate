@@ -57,12 +57,14 @@ const rolesRoutes = require('./routes/rolesRoutes');
 const gamesRoutes = require('./routes/gamesRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 const authRoutes = require('./routes/authRoutes');
+const homeRoutes = require('./routes/homeRoutes');
 
 app.use('/api/users', usersRoutes);
 app.use('/api/roles', rolesRoutes);
 app.use('/api/games', gamesRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/home', homeRoutes);
 
 // Rota raiz
 app.get('/', (req, res) => {

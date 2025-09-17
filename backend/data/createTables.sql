@@ -41,7 +41,6 @@ CREATE TABLE games (
     size_gb DECIMAL(5,2) NOT NULL
 );
 
--- Nova tabela categories
 CREATE TABLE categories (
     category_id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
@@ -102,4 +101,11 @@ CREATE TABLE library (
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     game_id INT REFERENCES games(game_id) ON DELETE CASCADE,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Game Details (1:1 com games)
+CREATE TABLE game_details (
+    game_id INT PRIMARY KEY REFERENCES games(game_id) ON DELETE CASCADE,
+    min_requirements TEXT NOT NULL,
+    recommended_requirements TEXT NOT NULL
 );
