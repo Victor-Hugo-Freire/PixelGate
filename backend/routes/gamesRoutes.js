@@ -1,13 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const gamesController = require('../controllers/gamesController');
+const gamesController = require("../controllers/gamesController");
+const { requireAuth, requireAdmin } = require("../middleware/authMiddleware");
 
-// Exemplo de rota para testar se está funcionando
-router.get('/', (req, res) => {
-  res.json({ message: 'Rota de games funcionando!' });
-});
+// Listar jogos (apenas logado)
+router.get("/", requireAuth, gamesController.test);
 
-// Rota para buscar jogo por ID
-router.get('/:id', gamesController.getById);
+// Buscar jogo por ID (apenas logado)
+router.get("/:id", requireAuth, gamesController.getById);
+
+//Criar, editar, deletar jogos (apenas admin)
+router.post("/", requireAdmin, gamesController.create);
+router.put("/:id", requireAdmin, gamesController.update);
+router.delete("/:id", requireAdmin, gamesController.delete);
 
 module.exports = router;

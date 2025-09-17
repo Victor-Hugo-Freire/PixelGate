@@ -24,9 +24,8 @@ CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    role_id INT REFERENCES roles(role_id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password_hash TEXT NOT NULL,
+    role_id INT REFERENCES roles(role_id)
 );
 
 -- Games
@@ -73,7 +72,9 @@ CREATE TABLE cart_items (
     item_id SERIAL PRIMARY KEY,
     cart_id INT REFERENCES carts(cart_id) ON DELETE CASCADE,
     game_id INT REFERENCES games(game_id),
-    quantity INT DEFAULT 1
+    quantity INT DEFAULT 1,
+    paid BOOLEAN DEFAULT FALSE,
+    UNIQUE (cart_id, game_id)
 );
 
 -- Orders
@@ -100,7 +101,8 @@ CREATE TABLE library (
     library_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     game_id INT REFERENCES games(game_id) ON DELETE CASCADE,
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, game_id)
 );
 
 -- Game Details (1:1 com games)

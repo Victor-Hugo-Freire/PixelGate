@@ -108,3 +108,9 @@ INSERT INTO game_details (game_id, min_requirements, recommended_requirements) V
   (13, 'Windows 7, i5-2400, 8GB RAM, GTX 660', 'Windows 10, i7-3770, 16GB RAM, GTX 970'),
   (14, 'Windows 10, i5-8400, 12GB RAM, GTX 1060', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
   (15, 'Windows 10, i5-2500K, 8GB RAM, GTX 970', 'Windows 10, i7-3770, 16GB RAM, RTX 2070');
+
+-- Cria um carrinho para o usuário admin (VHADM)
+INSERT INTO carts (user_id) VALUES (1);
+
+INSERT INTO cart_items (cart_id, game_id, quantity) VALUES (1, 2, 1);
+INSERT INTO cart_items (cart_id, game_id, quantity) VALUES (1, 4, 1);
