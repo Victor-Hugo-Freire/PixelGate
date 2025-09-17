@@ -1,0 +1,82 @@
+-- Roles
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
+);
+
+-- Permissions
+CREATE TABLE permissions (
+    permission_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
+);
+
+-- Role-Permissions (many-to-many)
+CREATE TABLE role_permissions (
+    role_id INT REFERENCES roles(role_id) ON DELETE CASCADE,
+    permission_id INT REFERENCES permissions(permission_id) ON DELETE CASCADE,
+    PRIMARY KEY (role_id, permission_id)
+);
+
+-- Users
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INT REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Games
+CREATE TABLE games (
+    game_id SERIAL PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    image_path VARCHAR(255),
+    category VARCHAR(50),
+    release_date DATE NOT NULL
+);
+
+-- Home Slider
+CREATE TABLE home_slider (
+    slider_id SERIAL PRIMARY KEY,
+    game_id INT REFERENCES games(game_id) ON DELETE CASCADE,
+    display_order INT NOT NULL
+);
+
+-- Carts
+CREATE TABLE carts (
+    cart_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Cart Items
+CREATE TABLE cart_items (
+    item_id SERIAL PRIMARY KEY,
+    cart_id INT REFERENCES carts(cart_id) ON DELETE CASCADE,
+    game_id INT REFERENCES games(game_id),
+    quantity INT DEFAULT 1
+);
+
+-- Orders
+CREATE TABLE orders (
+    order_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    total DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    status VARCHAR(50) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Order Items
+CREATE TABLE order_items (
+    order_item_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
+    game_id INT REFERENCES games(game_id),
+    unit_price DECIMAL(10,2) NOT NULL,
+    quantity INT DEFAULT 1
+);
