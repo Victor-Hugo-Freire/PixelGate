@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const rolesController = require("../controllers/rolesController");
 
-// Exemplo de rota
-router.get("/", (req, res) => {
-  res.json({ message: "Rota de roles funcionando!" });
-});
+// CRUD de roles
+router.get("/", rolesController.getAll);
+router.get("/:id", rolesController.getById);
+router.post("/", rolesController.create);
+router.put("/:id", rolesController.update);
+router.delete("/:id", rolesController.remove);
 
 module.exports = router;
