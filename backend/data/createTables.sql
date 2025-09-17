@@ -34,10 +34,25 @@ CREATE TABLE games (
     game_id SERIAL PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
+    developer VARCHAR(100) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     image_path VARCHAR(255),
-    category VARCHAR(50),
-    release_date DATE NOT NULL
+    release_date DATE NOT NULL,
+    size_gb DECIMAL(5,2) NOT NULL
+);
+
+-- Nova tabela categories
+CREATE TABLE categories (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT
+);
+
+-- Tabela de junção game_categories (N:N)
+CREATE TABLE game_categories (
+    game_id INT REFERENCES games(game_id) ON DELETE CASCADE,
+    category_id INT REFERENCES categories(category_id) ON DELETE CASCADE,
+    PRIMARY KEY (game_id, category_id)
 );
 
 -- Home Slider
@@ -79,4 +94,12 @@ CREATE TABLE order_items (
     game_id INT REFERENCES games(game_id),
     unit_price DECIMAL(10,2) NOT NULL,
     quantity INT DEFAULT 1
+);
+
+-- Library (biblioteca do usuário)
+CREATE TABLE library (
+    library_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    game_id INT REFERENCES games(game_id) ON DELETE CASCADE,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
