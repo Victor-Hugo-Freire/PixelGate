@@ -31,13 +31,13 @@ CREATE TABLE users (
 -- Games
 CREATE TABLE games (
     game_id SERIAL PRIMARY KEY,
-    title VARCHAR(150) NOT NULL,
+    title VARCHAR(150) UNIQUE NOT NULL,
     description TEXT NOT NULL,
     developer VARCHAR(100) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     image_path VARCHAR(255),
     release_date DATE NOT NULL,
-    size_gb DECIMAL(5,2) NOT NULL
+    size_gb DECIMAL(5,2) NOT NULL CHECK (size_gb >= 0)
 );
 
 CREATE TABLE categories (
@@ -75,25 +75,6 @@ CREATE TABLE cart_items (
     quantity INT DEFAULT 1,
     paid BOOLEAN DEFAULT FALSE,
     UNIQUE (cart_id, game_id)
-);
-
--- Orders
-CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    total DECIMAL(10,2) NOT NULL,
-    payment_method VARCHAR(50) NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Order Items
-CREATE TABLE order_items (
-    order_item_id SERIAL PRIMARY KEY,
-    order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
-    game_id INT REFERENCES games(game_id),
-    unit_price DECIMAL(10,2) NOT NULL,
-    quantity INT DEFAULT 1
 );
 
 -- Library (biblioteca do usuário)

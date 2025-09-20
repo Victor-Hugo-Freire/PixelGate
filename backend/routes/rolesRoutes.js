@@ -1,13 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const rolesController = require("../controllers/rolesController");
-const { requireAdmin } = require("../middleware/authMiddleware");
+const { requirePermission } = require("../middleware/authMiddleware");
 
-// CRUD de roles (apenas admin)
-router.get("/", requireAdmin, rolesController.getAll);
-router.get("/:id", requireAdmin, rolesController.getById);
-router.post("/", requireAdmin, rolesController.create);
-router.put("/:id", requireAdmin, rolesController.update);
-router.delete("/:id", requireAdmin, rolesController.remove);
+// Visualizar roles (painel)
+router.get("/", requirePermission(7), rolesController.getAll); // view_role
+router.get("/:id", requirePermission(7), rolesController.getById); // view_role
+
+// Criar role
+router.post("/", requirePermission(13), rolesController.create); // create_role
+
+// Editar role
+router.put("/:id", requirePermission(14), rolesController.update); // edit_role
+
+// Deletar role
+router.delete("/:id", requirePermission(15), rolesController.remove); // delete_role
 
 module.exports = router;

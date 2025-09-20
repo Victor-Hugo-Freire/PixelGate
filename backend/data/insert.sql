@@ -11,7 +11,18 @@ INSERT INTO permissions (permission_id, name, description) VALUES
   (4, 'add_user', 'Permite cadastrar novos usuários.'),
   (5, 'edit_user', 'Permite editar dados de usuários existentes.'),
   (6, 'delete_user', 'Permite excluir usuários do sistema.'),
-  (7, 'access_admin_panel', 'Permite acessar o painel administrativo do sistema.');
+  (7, 'access_admin_painel', 'Permite acessar o painel administrativo do sistema'),
+  (8, 'delete_admin_user', 'Permite excluir usuários com role de administrador.'),
+  (9, 'update_admin_user', 'Permite atualizar contas de administradores.'),
+  (10, 'create_category', 'Criar categorias'),
+  (11, 'edit_category', 'Editar categorias'),
+  (12, 'delete_category', 'Deletar categorias'),
+  (13, 'create_role', 'Permite criar roles'),
+  (14, 'edit_role', 'Permite editar roles'),
+  (15, 'delete_role', 'Permite deletar roles'),
+  (16, 'create_game_details', 'Permite criar detalhes de jogos'),
+  (17, 'edit_game_details', 'Permite editar detalhes de jogos'),
+  (18, 'delete_game_details', 'Permite deletar detalhes de jogos');
 
 -- Inserindo role_permissions (apenas Administrator tem todas as permissões)
 INSERT INTO role_permissions (role_id, permission_id) VALUES
@@ -21,8 +32,19 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES
   (2, 4),
   (2, 5),
   (2, 6),
-  (2, 7);
-
+  (2, 7),
+  (2, 8),
+  (2, 9);
+  (2, 10),
+  (2, 11),
+  (2, 12),
+  (2, 13),
+  (2, 14),
+  (2, 15),
+  (2, 16),
+  (2, 17),
+  (2, 18);
+  
 -- Inserindo users
 INSERT INTO users (user_id, name, email, password_hash, role_id, created_at) VALUES
   (1, 'VHADM', 'VHADM@gmail.com', 'VHADM', 2, '2025-09-16 12:00:00'),

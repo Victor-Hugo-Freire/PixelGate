@@ -1,21 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const usersController = require('../controllers/usersController');
-const { requireAdmin, requireAuth } = require('../middleware/authMiddleware');
+const usersController = require("../controllers/usersController");
+const { requirePermission } = require("../middleware/authMiddleware");
 
-// Listar todos os usuários (apenas admin)
-router.get('/', requireAdmin, usersController.getAll);
-
-// Buscar usuário por ID (apenas admin)
-router.get('/:id', requireAdmin, usersController.getById);
-
-// Criar usuário (apenas admin)
-router.post('/', requireAdmin, usersController.create);
-
-// Editar usuário (apenas admin)
-router.put('/:id', requireAdmin, usersController.update);
-
-// Deletar usuário (apenas admin)
-router.delete('/:id', requireAdmin, usersController.delete);
+// Todas as rotas de usuários exigem permissão de painel
+router.get("/", requirePermission(7), usersController.getAll); // access_admin_painel
+router.get("/:id", requirePermission(7), usersController.getById); // access_admin_painel
+router.post("/", requirePermission(4), usersController.create); // add_user
+router.put("/:id", requirePermission(5), usersController.update); // edit_user
+router.delete("/:id", requirePermission(6), usersController.delete); // delete_user
 
 module.exports = router;
