@@ -34,7 +34,7 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES
   (2, 6),
   (2, 7),
   (2, 8),
-  (2, 9);
+  (2, 9),
   (2, 10),
   (2, 11),
   (2, 12),
@@ -47,7 +47,7 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES
   
 -- Inserindo users
 INSERT INTO users (user_id, name, email, password_hash, role_id, created_at) VALUES
-  (1, 'VHADM', 'VHADM@gmail.com', 'VHADM', 2, '2025-09-16 12:00:00'),
+  (1, 'VHADM', 'VHADM@gmail.com', 'vhfr07/11/2008', 2, '2025-09-16 12:00:00'),
   (2, 'Lucas Silva', 'lucas.silva@gmail.com', 'lucas123', 1, '2025-09-16 12:05:00'),
   (3, 'Maria Oliveira', 'maria.oliveira@gmail.com', 'maria123', 1, '2025-09-16 12:10:00'),
   (4, 'Pedro Santos', 'pedro.santos@gmail.com', 'pedro123', 1, '2025-09-16 12:15:00'),
