@@ -3,11 +3,11 @@ const router = express.Router();
 const gameDetailsController = require("../controllers/gameDetailsController");
 const { requirePermission } = require("../middleware/authMiddleware");
 
-// Listar todos os detalhes (admin)
-router.get("/", requirePermission(7), gameDetailsController.getAll); // view_game_details
+// Listar todos os detalhes
+router.get("/", gameDetailsController.getAll); // público
 
-// Buscar detalhes por ID (admin)
-router.get("/:id", requirePermission(7), gameDetailsController.getById); // view_game_details
+// Buscar detalhes por ID
+router.get("/:id", gameDetailsController.getById); // público
 
 // Criar detalhes
 router.post("/", requirePermission(16), gameDetailsController.create); // create_game_details

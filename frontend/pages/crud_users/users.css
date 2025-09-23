@@ -1,0 +1,351 @@
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Header e menu */
+nav {
+  background: var(--surface);
+  padding: 1em 2em 0.5em 2em;
+  box-shadow: 0 2px 8px #0008;
+  border-radius: 0 0 18px 18px;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 0.7em;
+}
+.header-actions {
+  display: flex;
+  gap: 1em;
+}
+.menu-bar {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+}
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 2em;
+  margin: 0;
+  padding: 0;
+}
+.menu li {
+  font-size: 1.15em;
+  position: relative;
+}
+.menu li.active a {
+  color: var(--accent-2);
+  font-weight: bold;
+}
+.menu li.active::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  transition: width 0.3s;
+}
+.menu a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.2em 0.5em;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.menu a:hover {
+  background: var(--accent-2);
+  color: var(--bg);
+}
+
+/* Dropdown */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.user-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.2em 0.6em;
+  border-radius: 6px;
+}
+.user-btn:hover {
+  background: #0a896733;
+}
+.user-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: var(--surface);
+  min-width: 180px;
+  box-shadow: 0 4px 16px #000a;
+  border-radius: 10px;
+  z-index: 10;
+  padding: 0.7em 0.5em;
+}
+.user-dropdown-content a {
+  display: block;
+  color: var(--text);
+  padding: 0.6em 1em;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 1.05em;
+  transition: background 0.2s;
+}
+.user-dropdown-content a:hover {
+  background: var(--accent-2);
+  color: var(--bg);
+}
+
+/* CRUD */
+.crud-section {
+  max-width: 700px;
+  margin: 2em auto 0 auto;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #000a;
+  padding: 2em 2em 2em 2em;
+}
+#crudUsersForm {
+  margin-bottom: 2em;
+  background: #232226;
+  border-radius: 12px;
+  padding: 1.5em 1.5em 1em 1.5em;
+  box-shadow: 0 2px 8px #0004;
+}
+#crudUsersForm label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  color: var(--accent);
+}
+#crudUsersForm input[type="text"],
+#crudUsersForm input[type="email"],
+#crudUsersForm input[type="password"] {
+  width: 100%;
+  padding: 0.7em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+  border: 1px solid var(--accent-2);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1em;
+}
+#crudUsersForm select {
+  width: 100%;
+  padding: 0.7em;
+  margin-bottom: 1em;
+  border-radius: 8px;
+  border: 1.5px solid var(--accent-2);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1em;
+  appearance: none;
+  box-shadow: 0 2px 8px #0002;
+  transition: border-color 0.2s;
+}
+#crudUsersForm select:focus {
+  border-color: var(--accent);
+  outline: none;
+  background: #f9fffc;
+}
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-group input {
+  flex: 1;
+  padding-right: 36px; /* espaço para o ícone */
+}
+.input-group .icon-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.input-group .icon-btn img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  opacity: 1;
+  filter: drop-shadow(0 0 2px var(--accent));
+}
+.input-group .icon-btn.active img {
+  filter: drop-shadow(0 0 4px var(--accent-2));
+}
+
+.form-actions {
+  display: flex;
+  gap: 1em;
+  margin-top: 1em;
+}
+.form-actions button {
+  padding: 0.7em 2em;
+  border-radius: 8px;
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.form-actions button:disabled {
+  background: var(--muted);
+  color: var(--surface);
+  cursor: not-allowed;
+}
+.form-actions .btn-danger {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+}
+.form-actions .btn-cancel {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+}
+
+/* Tabela */
+#crudUsersTable {
+  margin-top: 2em;
+  background: #232226;
+  border-radius: 12px;
+  padding: 1.5em;
+  box-shadow: 0 2px 8px #0004;
+  overflow-x: auto;
+}
+#crudUsersTable table {
+  width: 100%;
+  border-collapse: collapse;
+  background: none;
+}
+#crudUsersTable th,
+#crudUsersTable td {
+  padding: 0.7em 0.5em;
+  text-align: left;
+  border-bottom: 1px solid var(--accent-2);
+}
+#crudUsersTable th {
+  color: var(--accent);
+  font-weight: bold;
+  background: #18181c;
+}
+#crudUsersTable td {
+  color: var(--text);
+  background: none;
+}
+#crudUsersTable tr:last-child td {
+  border-bottom: none;
+}
+#crudUsersTable .hidden-password {
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  font-weight: bold;
+}
+#crudUsersTable .icon-btn {
+  background: none;
+  border: none;
+  padding: 0.2em;
+  cursor: pointer;
+  vertical-align: middle;
+}
+#crudUsersTable .icon-btn img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  opacity: 0.7;
+}
+#crudUsersTable .icon-btn:hover img {
+  opacity: 1;
+}
+
+.message-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+.message {
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease;
+}
+.message.success {
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+.message.error {
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+.message.warning {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+.message.info {
+  background: linear-gradient(135deg, #d1ecf1, aquamarine);
+  color: #0c5460;
+  border: 1px solid #b8daff;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 700px) {
+  .crud-section {
+    max-width: 98vw;
+    padding: 1em 0.5em;
+  }
+  #crudUsersForm,
+  #crudUsersTable {
+    padding: 1em 0.5em;
+  }
+  #crudUsersTable table,
+  #crudUsersTable th,
+  #crudUsersTable td {
+    font-size: 0.95em;
+  }
+}

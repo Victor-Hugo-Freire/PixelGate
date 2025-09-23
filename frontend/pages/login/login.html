@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login | PixelGate</title>
+    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="../../global.css" />
+  </head>
+  <body>
+    <main>
+      <section class="login-section">
+        <div class="login-card">
+          <a href="../../index.html" class="login-logo">
+            <span>PixelGate</span>
+          </a>
+          <form id="loginForm">
+            <div class="input-group">
+              <label for="name">Nome de usuário</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                minlength="3"
+                autocomplete="username"
+              />
+            </div>
+            <div class="input-group">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+              />
+            </div>
+            <div class="input-group password-group">
+              <label for="password">Senha</label>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  minlength="6"
+                  autocomplete="current-password"
+                />
+                <button
+                  type="button"
+                  id="togglePassword"
+                  tabindex="-1"
+                  aria-label="Mostrar senha"
+                >
+                  <img
+                    src="../../assets/icons/eyeIcon.svg"
+                    id="eyeIcon"
+                    alt="Mostrar senha"
+                    style="
+                      width: 24px;
+                      height: 24px;
+                      filter: brightness(0) saturate(100%) invert(32%)
+                        sepia(97%) saturate(1000%) hue-rotate(120deg);
+                    "
+                  />
+                  <img
+                    src="../../assets/icons/eyeSlashedIcon.svg"
+                    id="eyeSlashedIcon"
+                    alt="Ocultar senha"
+                    style="
+                      width: 24px;
+                      height: 24px;
+                      display: none;
+                      filter: brightness(0) saturate(100%) invert(32%)
+                        sepia(97%) saturate(1000%) hue-rotate(120deg);
+                    "
+                  />
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary" id="submitBtn">
+              Entrar
+            </button>
+          </form>
+          <div class="login-switch">
+            <span id="switchText">Não tem uma conta?</span>
+            <a href="#" id="switchLink">Criar conta</a>
+          </div>
+          <div id="loginMessage" class="login-message"></div>
+        </div>
+      </section>
+    </main>
+    <script src="login.js"></script>
+  </body>
+</html>

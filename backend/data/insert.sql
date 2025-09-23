@@ -47,11 +47,11 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES
   
 -- Inserindo users
 INSERT INTO users (user_id, name, email, password_hash, role_id, created_at) VALUES
-  (1, 'VHADM', 'VHADM@gmail.com', 'vhfr07/11/2008', 2, '2025-09-16 12:00:00'),
-  (2, 'Lucas Silva', 'lucas.silva@gmail.com', 'lucas123', 1, '2025-09-16 12:05:00'),
-  (3, 'Maria Oliveira', 'maria.oliveira@gmail.com', 'maria123', 1, '2025-09-16 12:10:00'),
-  (4, 'Pedro Santos', 'pedro.santos@gmail.com', 'pedro123', 1, '2025-09-16 12:15:00'),
-  (5, 'Ana Costa', 'ana.costa@gmail.com', 'ana123', 1, '2025-09-16 12:20:00');
+  ('VHADM', 'VHADM@gmail.com', 'vhfr07/11/2008', 2, '2025-09-16 12:00:00'),
+  ('Lucas Silva', 'lucas.silva@gmail.com', 'lucas123', 1, '2025-09-16 12:05:00'),
+  ('Maria Oliveira', 'maria.oliveira@gmail.com', 'maria123', 1, '2025-09-16 12:10:00'),
+  ('Pedro Santos', 'pedro.santos@gmail.com', 'pedro123', 1, '2025-09-16 12:15:00'),
+  ('Ana Costa', 'ana.costa@gmail.com', 'ana123', 1, '2025-09-16 12:20:00');
 
 INSERT INTO games (game_id, title, description, developer, price, image_path, release_date, size_gb) VALUES
   (1, 'Elden Ring', 'Um RPG de ação em mundo aberto desenvolvido pela FromSoftware, em colaboração com George R. R. Martin. O jogador explora as Terras Intermédias, enfrentando inimigos desafiadores, chefes colossais e revelando segredos em um mundo vasto e sombrio.', 'FromSoftware', 299.90, './imgs/1.jpeg', '2022-02-25', 60.00),

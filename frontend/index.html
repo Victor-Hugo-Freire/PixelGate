@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PixelGate Store</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="global.css" />
+    <link
+      rel="preload"
+      href="assets/font/RobotoSlab[wght].ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="header-top">
+        <div class="logo">PixelGate</div>
+        <div class="header-actions" id="header-actions">
+          <a href="pages/login/login.html" class="btn-primary">Entrar</a>
+          <a href="pages/login/login.html?mode=register" class="btn-primary"
+            >Registrar-se</a
+          >
+        </div>
+      </div>
+      <div class="menu-bar">
+        <ul class="menu">
+          <li class="active">Loja</li>
+          <li><a href="#" id="libraryLink">Biblioteca</a></li>
+          <li><a href="#" id="cartLink">Carrinho</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <section id="slider-section" aria-label="Slider de jogos">
+        <div id="slider" class="slider"></div>
+      </section>
+      <section id="categories-section" aria-label="Jogos por categoria">
+        <!-- Categorias dinâmicas aqui -->
+      </section>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -7,7 +7,7 @@ const { requirePermission } = require("../middleware/authMiddleware");
 router.get("/", gamesController.getAll);
 
 // Buscar jogo por ID - público
-router.get("/:id", requirePermission(7), gamesController.getById);
+router.get("/:id", gamesController.getById);
 
 // Painel admin - exige permissão de painel
 router.get("/admin/all", requirePermission(7), gamesController.getAll); // access_admin_painel

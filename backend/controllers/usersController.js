@@ -212,3 +212,24 @@ exports.delete = async (req, res) => {
       .json({ error: "Erro ao deletar usuário", details: err.message });
   }
 };
+
+// Buscar permissões do usuário
+exports.getPermissions = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const result = await db.query(
+      `SELECT p.permission_id
+         FROM users u
+         JOIN roles r ON u.role_id = r.role_id
+         JOIN role_permissions rp ON r.role_id = rp.role_id
+         JOIN permissions p ON rp.permission_id = p.permission_id
+        WHERE u.user_id = $1`,
+      [user_id]
+    );
+    res.json(result.rows.map((r) => r.permission_id));
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Erro ao buscar permissões", details: err.message });
+  }
+};

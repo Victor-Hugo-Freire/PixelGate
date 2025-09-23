@@ -32,7 +32,8 @@ exports.getByUser = async (req, res) => {
 // POST /api/cart - Adiciona item ao carrinho
 exports.addItem = async (req, res) => {
   try {
-    const { user_id, game_id } = req.body;
+    const user_id = req.user.user_id; // PEGA DO JWT!
+    const { game_id } = req.body;
 
     // Verifica se o usuário já possui o jogo na biblioteca
     const alreadyOwned = await db.query(
@@ -77,12 +78,10 @@ exports.addItem = async (req, res) => {
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: "Erro ao adicionar item ao carrinho",
-        details: err.message,
-      });
+    res.status(500).json({
+      error: "Erro ao adicionar item ao carrinho",
+      details: err.message,
+    });
   }
 };
 
@@ -99,11 +98,9 @@ exports.removeItem = async (req, res) => {
     }
     res.json({ message: "Item removido do carrinho" });
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: "Erro ao remover item do carrinho",
-        details: err.message,
-      });
+    res.status(500).json({
+      error: "Erro ao remover item do carrinho",
+      details: err.message,
+    });
   }
 };

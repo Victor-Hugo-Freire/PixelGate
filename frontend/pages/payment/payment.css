@@ -1,0 +1,140 @@
+body {
+  background: var(--bg);
+  font-family: "Roboto", Arial, sans-serif;
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  display: block;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 1.2em;
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+}
+
+.logo:hover {
+  color: var(--accent-2);
+}
+
+.payment-section {
+  max-width: 420px;
+  margin: 2em auto;
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #000a;
+  padding: 2em 2em 2em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payment-title {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.payment-methods {
+  display: flex;
+  gap: 2em;
+  margin-bottom: 2em;
+  justify-content: center;
+}
+
+.payment-method {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 1em;
+  transition: border 0.2s;
+}
+.payment-method.selected {
+  border: 2px solid var(--accent-2);
+  background: #09c18422;
+}
+.payment-method img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5em;
+}
+
+.payment-form {
+  width: 100%;
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.payment-form label {
+  font-weight: bold;
+  color: var(--accent);
+  margin-bottom: 0.3em;
+}
+
+.payment-form input {
+  padding: 0.7em;
+  border-radius: 6px;
+  border: 1px solid var(--accent-2);
+  font-size: 1em;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.payment-btn {
+  background: var(--accent-2);
+  color: var(--bg);
+  border: none;
+  padding: 0.9em 0;
+  border-radius: 10px;
+  font-size: 1.08em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1em;
+  transition: background 0.3s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.payment-btn:disabled {
+  background: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.payment-success {
+  color: var(--accent-2);
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 1em;
+  text-align: center;
+}
+
+.payment-error {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1em;
+  margin-top: 1em;
+  text-align: center;
+}
+
+.qr-code-img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  margin: 1em auto;
+  display: block;
+}
