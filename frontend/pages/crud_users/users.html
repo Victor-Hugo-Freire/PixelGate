@@ -34,7 +34,18 @@
     </nav>
     <main>
       <section class="crud-section">
-        <form id="crudUsersForm"></form>
+        <form id="crudUsersForm">
+          <input
+            type="number"
+            id="searchId"
+            name="searchId"
+            min="1"
+            required
+            placeholder="Digite o ID"
+            autocomplete="off"
+            ...
+          />
+        </form>
         <div id="crudUsersTable"></div>
       </section>
       <div id="messageContainer" class="message-container"></div>

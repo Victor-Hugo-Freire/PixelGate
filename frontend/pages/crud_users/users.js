@@ -26,7 +26,7 @@ async function protectAdminArea() {
   }
   const permissions = await res.json();
   if (!permissions.includes(7)) {
-    window.location.href = "../../library/library.html";
+    window.location.href = "../library/library.html";
     return false;
   }
   return true;
@@ -187,7 +187,7 @@ async function renderCrudForm() {
           Buscar usuário por ID:
         </label>
         <div class="input-group">
-          <input type="text" id="searchId" name="searchId" pattern="\\d+" required placeholder="Digite o ID do usuário" autocomplete="off" ${
+          <input type="number" id="searchId" name="searchId" min="1" required placeholder="Digite o ID do usuário" autocomplete="off" ${
             crudState.mode !== "idle" ? "disabled" : ""
           }>
           <button type="button" class="icon-btn" id="btnBuscar">
@@ -203,16 +203,7 @@ async function renderCrudForm() {
       <label for="insertEmail">Email:</label>
       <input type="email" id="insertEmail" name="insertEmail" required autocomplete="off">
       <label for="insertPassword">Senha:</label>
-      <div class="input-group">
-        <input type="${
-          crudState.showPassword ? "text" : "password"
-        }" id="insertPassword" name="insertPassword" required autocomplete="off">
-        <button type="button" class="icon-btn" id="toggleInsertPassword">
-          <img src="../../assets/icons/${
-            crudState.showPassword ? "eyeIcon" : "eyeSlashedIcon"
-          }.svg" alt="Mostrar senha">
-        </button>
-      </div>
+      <input type="password" id="insertPassword" name="insertPassword" required autocomplete="off">
       ${roleSelect("insertRole", 1)}
       <div class="form-actions">
         <button type="button" id="btnSalvar">Salvar</button>
@@ -232,16 +223,7 @@ async function renderCrudForm() {
         crudState.currentUser.email
       }" autocomplete="off">
       <label for="editPassword">Senha (nova):</label>
-      <div class="input-group">
-        <input type="${
-          crudState.showPassword ? "text" : "password"
-        }" id="editPassword" name="editPassword" autocomplete="off" placeholder="Deixe em branco para não alterar">
-        <button type="button" class="icon-btn" id="toggleEditPassword">
-          <img src="../../assets/icons/${
-            crudState.showPassword ? "eyeIcon" : "eyeSlashedIcon"
-          }.svg" alt="Mostrar senha">
-        </button>
-      </div>
+      <input type="password" id="editPassword" name="editPassword" autocomplete="off" placeholder="Deixe em branco para não alterar">
       ${roleSelect("editRole", crudState.currentUser.role_id)}
       <div class="form-actions">
         <button type="button" id="btnSalvar">Salvar</button>
@@ -271,6 +253,13 @@ async function renderCrudForm() {
 
   formEl.innerHTML = html;
 
+  const searchIdInput = document.getElementById("searchId");
+  if (searchIdInput) {
+    searchIdInput.addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "");
+    });
+  }
+
   // Eventos do formulário
   if (crudState.mode === "idle" || crudState.mode === "searching") {
     document.getElementById("btnBuscar").onclick = async () => {
@@ -297,134 +286,113 @@ async function renderCrudForm() {
     };
   }
   if (crudState.mode === "inserting") {
-    document.getElementById("toggleInsertPassword").onclick = (e) => {
-      e.preventDefault();
-      // Salva todos os valores dos inputs
-      const name = document.getElementById("insertName").value;
-      const email = document.getElementById("insertEmail").value;
-      const password = document.getElementById("insertPassword").value;
-      const role = document.getElementById("insertRole").value;
-      crudState.showPassword = !crudState.showPassword;
-      renderCrudForm();
-      // Restaura os valores
-      document.getElementById("insertName").value = name;
-      document.getElementById("insertEmail").value = email;
-      document.getElementById("insertPassword").value = password;
-      document.getElementById("insertRole").value = role;
-      document.getElementById("insertPassword").focus();
-    };
-    document.getElementById("btnSalvar").onclick = async () => {
-      const name = document.getElementById("insertName").value.trim();
-      const email = document.getElementById("insertEmail").value.trim();
-      const password = document.getElementById("insertPassword").value;
-      const role_id = parseInt(document.getElementById("insertRole").value);
-      if (!name || !email || !password)
-        return showMessage("Preencha todos os campos!", "warning");
-      if (password.length < 6)
-        return showMessage(
-          "Senha deve ter pelo menos 6 caracteres!",
-          "warning"
-        );
-      if (!email.endsWith("@gmail.com"))
-        return showMessage("Email deve terminar com @gmail.com!", "warning");
-      // Verifica se nome ou email já existem
-      const users = await fetchAllUsers();
-      if (users.some((u) => u.name === name))
-        return showMessage("Nome já cadastrado!", "warning");
-      if (users.some((u) => u.email === email))
-        return showMessage("Email já cadastrado!", "warning");
-      const ok = await insertUser({ name, email, password, role_id });
-      if (ok) {
+    const btnSalvar = document.getElementById("btnSalvar");
+    if (btnSalvar)
+      btnSalvar.onclick = async () => {
+        const name = document.getElementById("insertName").value.trim();
+        const email = document.getElementById("insertEmail").value.trim();
+        const password = document.getElementById("insertPassword").value;
+        const role_id = parseInt(document.getElementById("insertRole").value);
+        if (!name || !email || !password)
+          return showMessage("Preencha todos os campos!", "warning");
+        if (password.length < 6)
+          return showMessage(
+            "Senha deve ter pelo menos 6 caracteres!",
+            "warning"
+          );
+        if (!email.endsWith("@gmail.com"))
+          return showMessage("Email deve terminar com @gmail.com!", "warning");
+        // Verifica se nome ou email já existem
+        const users = await fetchAllUsers();
+        if (users.some((u) => u.name === name))
+          return showMessage("Nome já cadastrado!", "warning");
+        if (users.some((u) => u.email === email))
+          return showMessage("Email já cadastrado!", "warning");
+        const ok = await insertUser({ name, email, password, role_id });
+        if (ok) {
+          crudState.mode = "idle";
+          crudState.currentId = "";
+          crudState.currentUser = null;
+          crudState.showPassword = false;
+          showMessage("Usuário inserido com sucesso!", "success");
+          renderCrudForm();
+          renderCrudTable();
+        }
+      };
+    const btnCancelar = document.getElementById("btnCancelar");
+    if (btnCancelar)
+      btnCancelar.onclick = () => {
         crudState.mode = "idle";
         crudState.currentId = "";
         crudState.currentUser = null;
         crudState.showPassword = false;
-        showMessage("Usuário inserido com sucesso!", "success");
         renderCrudForm();
         renderCrudTable();
-      }
-    };
-    document.getElementById("btnCancelar").onclick = () => {
-      crudState.mode = "idle";
-      crudState.currentId = "";
-      crudState.currentUser = null;
-      crudState.showPassword = false;
-      renderCrudForm();
-      renderCrudTable();
-    };
+      };
   }
   if (crudState.mode === "editing" && crudState.currentUser) {
-    document.getElementById("toggleEditPassword").onclick = (e) => {
-      e.preventDefault();
-      // Salva todos os valores dos inputs
-      const name = document.getElementById("editName").value;
-      const email = document.getElementById("editEmail").value;
-      const password = document.getElementById("editPassword").value;
-      const role = document.getElementById("editRole").value;
-      crudState.showPassword = !crudState.showPassword;
-      renderCrudForm();
-      // Restaura os valores
-      document.getElementById("editName").value = name;
-      document.getElementById("editEmail").value = email;
-      document.getElementById("editPassword").value = password;
-      document.getElementById("editRole").value = role;
-      document.getElementById("editPassword").focus();
-    };
-    document.getElementById("btnSalvar").onclick = async () => {
-      const name = document.getElementById("editName").value.trim();
-      const email = document.getElementById("editEmail").value.trim();
-      const password = document.getElementById("editPassword").value;
-      const role_id = parseInt(document.getElementById("editRole").value);
-      if (!name || !email)
-        return showMessage("Preencha todos os campos!", "warning");
-      if (password && password.length < 6)
-        return showMessage(
-          "Senha deve ter pelo menos 6 caracteres!",
-          "warning"
-        );
-      if (!email.endsWith("@gmail.com"))
-        return showMessage("Email deve terminar com @gmail.com!", "warning");
-      // Verifica se nome ou email já existem (exceto o próprio)
-      const users = await fetchAllUsers();
-      if (
-        users.some(
-          (u) => u.name === name && u.user_id !== crudState.currentUser.user_id
+    const btnSalvar = document.getElementById("btnSalvar");
+    if (btnSalvar)
+      btnSalvar.onclick = async () => {
+        const name = document.getElementById("editName").value.trim();
+        const email = document.getElementById("editEmail").value.trim();
+        const password = document.getElementById("editPassword").value;
+        const role_id = parseInt(document.getElementById("editRole").value);
+        if (!name || !email)
+          return showMessage("Preencha todos os campos!", "warning");
+        if (password && password.length < 6)
+          return showMessage(
+            "Senha deve ter pelo menos 6 caracteres!",
+            "warning"
+          );
+        if (!email.endsWith("@gmail.com"))
+          return showMessage("Email deve terminar com @gmail.com!", "warning");
+        // Verifica se nome ou email já existem (exceto o próprio)
+        const users = await fetchAllUsers();
+        if (
+          users.some(
+            (u) =>
+              u.name === name && u.user_id !== crudState.currentUser.user_id
+          )
         )
-      )
-        return showMessage("Nome já cadastrado!", "warning");
-      if (
-        users.some(
-          (u) =>
-            u.email === email && u.user_id !== crudState.currentUser.user_id
+          return showMessage("Nome já cadastrado!", "warning");
+        if (
+          users.some(
+            (u) =>
+              u.email === email && u.user_id !== crudState.currentUser.user_id
+          )
         )
-      )
-        return showMessage("Email já cadastrado!", "warning");
-      const data = { name, email, role_id };
-      if (password) data.password = password;
-      const ok = await updateUser(crudState.currentUser.user_id, data);
-      if (ok) {
+          return showMessage("Email já cadastrado!", "warning");
+        const data = { name, email, role_id };
+        if (password) data.password = password;
+        const ok = await updateUser(crudState.currentUser.user_id, data);
+        if (ok) {
+          crudState.mode = "idle";
+          crudState.currentId = "";
+          crudState.currentUser = null;
+          crudState.showPassword = false;
+          showMessage("Usuário alterado com sucesso!", "success");
+          renderCrudForm();
+          renderCrudTable();
+        }
+      };
+    const btnCancelar = document.getElementById("btnCancelar");
+    if (btnCancelar)
+      btnCancelar.onclick = () => {
         crudState.mode = "idle";
         crudState.currentId = "";
         crudState.currentUser = null;
         crudState.showPassword = false;
-        showMessage("Usuário alterado com sucesso!", "success");
         renderCrudForm();
         renderCrudTable();
-      }
-    };
-    document.getElementById("btnCancelar").onclick = () => {
-      crudState.mode = "idle";
-      crudState.currentId = "";
-      crudState.currentUser = null;
-      crudState.showPassword = false;
-      renderCrudForm();
-      renderCrudTable();
-    };
-    document.getElementById("btnExcluir").onclick = () => {
-      crudState.mode = "deleting";
-      renderCrudForm();
-      renderCrudTable();
-    };
+      };
+    const btnExcluir = document.getElementById("btnExcluir");
+    if (btnExcluir)
+      btnExcluir.onclick = () => {
+        crudState.mode = "deleting";
+        renderCrudForm();
+        renderCrudTable();
+      };
   }
   if (crudState.mode === "deleting" && crudState.currentUser) {
     document.getElementById("btnConfirmDelete").onclick = async () => {

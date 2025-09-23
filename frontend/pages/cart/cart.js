@@ -12,56 +12,61 @@ async function getCurrentUser() {
   }
 }
 
+async function getUserPermissions(user_id) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/users/${user_id}/permissions`, {
+      credentials: "include",
+    });
+    if (res.ok) return await res.json();
+    return [];
+  } catch {
+    return [];
+  }
+}
+
 async function showUserHeader() {
   const user = await getCurrentUser();
-  let isAdmin = false;
   if (user && user.user_id) {
-    try {
-      const res = await fetch(
-        `${API_BASE_URL}/users/${user.user_id}/permissions`,
-        { credentials: "include" }
-      );
-      if (res.ok) {
-        const permissions = await res.json();
-        isAdmin = permissions.includes(7);
-      }
-    } catch {}
+    const permissions = await getUserPermissions(user.user_id);
+    const isAdmin = permissions.includes(7);
     const headerActions = document.getElementById("header-actions");
-    if (user && user.name) {
-      headerActions.innerHTML = `
-        <div class="user-dropdown">
-          <button class="user-btn" id="userBtn">
-            <img src="../../assets/icons/userIcon.svg" alt="Usuário" style="width:28px;height:28px;vertical-align:middle;">
-            <span style="font-weight:bold;color:var(--accent);font-size:1.1em;">${user.name}</span>
-            <span style="margin-left:6px;">▼</span>
-          </button>
-          <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
-            <a href="../crud_users/users.html">Painel administrativo</a>
-            <a href="#" id="logoutBtn">Logout</a>
-          </div>
+    headerActions.innerHTML = `
+      <div class="user-dropdown">
+        <button class="user-btn" id="userBtn">
+          <img src="../../assets/icons/userIcon.svg" alt="Usuário" style="width:28px;height:28px;vertical-align:middle;">
+          <span style="font-weight:bold;color:var(--accent);font-size:1.1em;">${
+            user.name
+          }</span>
+          <span style="margin-left:6px;">▼</span>
+        </button>
+        <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
+          ${
+            isAdmin
+              ? `<a href="../crud_users/users.html">Painel administrativo</a>`
+              : ""
+          }
+          <a href="#" id="logoutBtn">Logout</a>
         </div>
-      `;
-
-      const userBtn = document.getElementById("userBtn");
-      const dropdown = document.getElementById("userDropdownContent");
-      userBtn.onclick = (e) => {
-        e.stopPropagation();
-        dropdown.style.display =
-          dropdown.style.display === "block" ? "none" : "block";
-      };
-      document.body.addEventListener("click", () => {
-        dropdown.style.display = "none";
+      </div>
+    `;
+    const userBtn = document.getElementById("userBtn");
+    const dropdown = document.getElementById("userDropdownContent");
+    userBtn.onclick = (e) => {
+      e.stopPropagation();
+      dropdown.style.display =
+        dropdown.style.display === "block" ? "none" : "block";
+    };
+    document.body.addEventListener("click", () => {
+      dropdown.style.display = "none";
+    });
+    document.getElementById("logoutBtn").onclick = async (e) => {
+      e.preventDefault();
+      await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
       });
-
-      document.getElementById("logoutBtn").onclick = async (e) => {
-        e.preventDefault();
-        await fetch(`${API_BASE_URL}/auth/logout`, {
-          method: "POST",
-          credentials: "include",
-        });
-        window.location.reload();
-      };
-    }
+      window.location.reload();
+    };
   }
 }
 

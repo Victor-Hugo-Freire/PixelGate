@@ -88,15 +88,28 @@ async function getCurrentUser() {
   }
 }
 
+async function getUserPermissions(user_id) {
+  try {
+    const res = await fetch(`${API_BASE_URL}/users/${user_id}/permissions`, {
+      credentials: "include",
+    });
+    if (res.ok) return await res.json();
+    return [];
+  } catch {
+    return [];
+  }
+}
+
 async function showUserHeader() {
   const user = await getCurrentUser();
   const headerActions = document.getElementById("header-actions");
-  if (user && user.name) {
-    const isAdmin = user.role_id === 2;
+  if (user && user.user_id) {
+    const permissions = await getUserPermissions(user.user_id);
+    const isAdmin = permissions.includes(7);
     headerActions.innerHTML = `
       <div class="user-dropdown">
         <button class="user-btn" id="userBtn">
-          <img src="../../assets/icons/userIcon.svg" alt="Usuário" style="width:28px;height:28px;vertical-align:middle;">
+          <img src="assets/icons/userIcon.svg" alt="Usuário" style="width:28px;height:28px;vertical-align:middle;">
           <span style="font-weight:bold;color:var(--accent);font-size:1.1em;">${
             user.name
           }</span>
@@ -112,7 +125,6 @@ async function showUserHeader() {
         </div>
       </div>
     `;
-
     const userBtn = document.getElementById("userBtn");
     const dropdown = document.getElementById("userDropdownContent");
     userBtn.onclick = (e) => {
@@ -123,7 +135,6 @@ async function showUserHeader() {
     document.body.addEventListener("click", () => {
       dropdown.style.display = "none";
     });
-
     document.getElementById("logoutBtn").onclick = async (e) => {
       e.preventDefault();
       await fetch(`${API_BASE_URL}/auth/logout`, {

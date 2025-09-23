@@ -62,6 +62,7 @@ const libraryRoutes = require("./routes/libraryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const gameDetailsRoutes = require("./routes/gameDetailsRoutes");
+const permissionsRoutes = require("./routes/permissionsRoutes");
 
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
@@ -73,6 +74,7 @@ app.use("/api/library", libraryRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/game-details", gameDetailsRoutes);
+app.use("/api/permissions", permissionsRoutes);
 
 // Rota raiz
 app.get("/", (req, res) => {

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PixelGate - Cargos & Permissões</title>
+    <link rel="stylesheet" href="role.css" />
+    <link rel="stylesheet" href="../../global.css" />
   </head>
   <body>
     <nav>
@@ -14,7 +16,9 @@
       <div class="menu-bar">
         <ul class="menu">
           <li><a href="../crud_users/users.html">Usuários</a></li>
-          <li><a href="../crud_roles/role.html">Cargos & Permissões</a></li>
+          <li class="active">
+            <a href="../crud_roles/role.html">Cargos & Permissões</a>
+          </li>
           <li>
             <a href="../crud_games-categories/games-categories.html"
               >Jogos & Categorias</a
@@ -29,5 +33,23 @@
         </ul>
       </div>
     </nav>
+    <main>
+      <section class="crud-section">
+        <form id="crudRolesForm">
+          <input
+            type="number"
+            id="searchId"
+            name="searchId"
+            min="1"
+            required
+            placeholder="Digite o ID"
+            autocomplete="off"
+          />
+        </form>
+        <div id="crudRolesTable"></div>
+      </section>
+      <div id="messageContainer" class="message-container"></div>
+    </main>
+    <script src="role.js"></script>
   </body>
 </html>

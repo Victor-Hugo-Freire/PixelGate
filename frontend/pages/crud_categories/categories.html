@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PixelGate - Categorias</title>
+    <link rel="stylesheet" href="categories.css" />
+    <link rel="stylesheet" href="../../global.css" />
   </head>
   <body>
     <nav>
@@ -25,9 +27,30 @@
               >Detalhe de Jogos</a
             >
           </li>
-          <li><a href="../crud_categories/categories.html">Categorias</a></li>
+          <li class="active">
+            <a href="../crud_categories/categories.html">Categorias</a>
+          </li>
         </ul>
       </div>
     </nav>
+    <main>
+      <section class="crud-section">
+        <form id="categoriesForm">
+          <input
+            type="number"
+            id="searchId"
+            name="searchId"
+            min="1"
+            required
+            placeholder="Digite o ID"
+            autocomplete="off"
+            ...
+          />
+        </form>
+        <div id="categoriesTable"></div>
+      </section>
+      <div id="messageContainer" class="message-container"></div>
+    </main>
+    <script src="categories.js"></script>
   </body>
 </html>
