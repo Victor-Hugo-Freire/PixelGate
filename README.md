@@ -50,7 +50,3 @@ Todas as APIs REST foram testadas utilizando o [Postman](https://www.postman.com
 ## 📹 Vídeo no Youtube
 
 Em breve será disponibilizado um vídeo no YouTube apresentando o funcionamento do sistema e suas principais funcionalidades.
-
----
-
-## As permissões do painel administrativo são controladas pelo backend e frontend.
