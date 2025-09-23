@@ -53,6 +53,4 @@ Em breve será disponibilizado um vídeo no YouTube apresentando o funcionamento
 
 ---
 
-## 📚 Documentação extra
-
-- As permissões do painel administrativo são controladas pelo backend e frontend.
+## As permissões do painel administrativo são controladas pelo backend e frontend.
