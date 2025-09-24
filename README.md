@@ -21,7 +21,7 @@ O sistema possui painel administrativo completo, autenticação, controle de per
 
 O banco de dados foi modelado conforme o diagrama abaixo:
 
-![DER do Banco de Dados](documentacao/DER_PixelGate.png)
+![DER do Banco de Dados](DER_BD/DER_PixelGate.png)
 
 ---
 
