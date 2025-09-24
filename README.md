@@ -29,15 +29,15 @@ O banco de dados foi modelado conforme o diagrama abaixo:
 
 1. Clone o repositório
 2. Instale as dependências do backend e frontend
-3. Configure o banco de dados (PostgreSQL)
-4. Execute os scripts de criação e inserção em `/backend/data/createTables.sql` e `/backend/data/insert.sql`
-5. Inicie o backend:
+3. Configure o banco de dados do projeto no arquivo database.js e pgAdmin
+4. Execute os scripts de criação e inserção que estão em `/backend/data/createTables.sql` e `/backend/data/insert.sql`
+5. Para iniciar o servidor:
    ```bash
    npm install
    cd backend
    node server.js
    ```
-6. Inicie o frontend, abrindo o link _http://localhost:3001_
+6. Inicie o frontend, abrindo o link do servidor no console
 
 ---
 
@@ -49,4 +49,4 @@ Todas as APIs REST foram testadas utilizando o [Postman](https://www.postman.com
 
 ## 📹 Vídeo no Youtube
 
-Em breve será disponibilizado um vídeo no YouTube apresentando o funcionamento do sistema e suas principais funcionalidades.
+*https://youtu.be/VYo7f5ZxfyE*
