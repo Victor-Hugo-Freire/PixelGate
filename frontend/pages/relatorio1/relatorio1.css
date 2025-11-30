@@ -1,0 +1,101 @@
+@import url("../../index.css");
+@import url("../relatorio2/relatorio2.css");
+
+/* Sobrescreva apenas o necessário para manter o visual igual ao index */
+nav {
+  background: var(--surface);
+  padding: 1em 2em 0.5em 2em;
+  box-shadow: 0 2px 8px #0008;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 0.7em;
+}
+.header-actions {
+  display: flex;
+  gap: 1em;
+}
+.menu-bar {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+}
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 2em;
+  margin: 0;
+  padding: 0;
+}
+.menu li {
+  font-size: 1.25em;
+  position: relative;
+}
+.menu li.active::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  transition: width 0.3s;
+}
+
+/* Mantém o visual dos relatórios para o restante da página */
+@import url("../relatorio2/relatorio2.css");
+/* Permite herdar todo o visual do relatorio2, mantendo identidade visual. Adicione customizações abaixo se necessário. */
+
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.user-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+.user-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: #23272f;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 100;
+  border-radius: 8px;
+  padding: 8px 0;
+  margin-top: 8px;
+}
+.user-dropdown-content a {
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  font-size: 1em;
+  border: none;
+  background: none;
+  transition: background 0.2s;
+}
+.user-dropdown-content a:hover {
+  background: #2d323c;
+  color: var(--accent);
+}
+.user-dropdown:hover .user-dropdown-content,
+.user-dropdown:focus-within .user-dropdown-content {
+  display: block;
+}

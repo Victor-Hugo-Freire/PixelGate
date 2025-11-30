@@ -118,7 +118,7 @@ async function showUserHeader() {
         <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
           ${
             hasReport
-              ? `<a href="pages/relatorio1/relatorio1.html">Relatório: Comprados por Período</a>
+              ? `<a href="pages/relatorio1/relatorio1.html">Relatório: Clientes que Mais Compraram</a>
           <a href="pages/relatorio2/relatorio2.html">Relatório: Mais Vendidos</a>`
               : ""
           }

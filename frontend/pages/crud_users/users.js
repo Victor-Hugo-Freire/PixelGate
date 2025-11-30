@@ -54,11 +54,10 @@ async function showUserHeader() {
           <span style="margin-left:6px;">▼</span>
         </button>
         <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
-          <a href="../../index.html" id="goHomeBtn">Voltar para área do usuário</a>
+          <a href="../../index.html">Voltar para área do usuário</a>
           ${
             hasReport
-              ? `<a href="../relatorio1/relatorio1.html">Relatório: Comprados por Período</a>
-          <a href="../relatorio2/relatorio2.html">Relatório: Mais Vendidos</a>`
+              ? `<a href="../relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>\n<a href="../relatorio1/relatorio1.html">Relatório: Clientes que Mais Compraram</a>`
               : ""
           }
           <a href="#" id="logoutBtn">Logout</a>
@@ -75,10 +74,6 @@ async function showUserHeader() {
     document.body.addEventListener("click", () => {
       dropdown.style.display = "none";
     });
-    document.getElementById("goHomeBtn").onclick = (e) => {
-      e.preventDefault();
-      window.location.href = "../../index.html";
-    };
     document.getElementById("logoutBtn").onclick = async (e) => {
       e.preventDefault();
       await fetch(`${API_BASE_URL}/auth/logout`, {

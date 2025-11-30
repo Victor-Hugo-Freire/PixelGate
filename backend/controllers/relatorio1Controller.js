@@ -1,45 +1,39 @@
 const db = require("../database");
 
-// GET /api/relatorio1?data_inicio=YYYY-MM-DD&data_fim=YYYY-MM-DD
-exports.getRelatorio1 = async (req, res) => {
+// GET /api/relatorio-clientes?data_inicio=YYYY-MM-DD&data_fim=YYYY-MM-DD&order_by=total_jogos|valor_gasto
+exports.getRelatorioClientes = async (req, res) => {
   try {
-    const { data_inicio, data_fim } = req.query;
-    if (!data_inicio || !data_fim) {
-      return res.status(400).json({ error: "Informe data_inicio e data_fim" });
+    const { data_inicio, data_fim, order_by } = req.query;
+    let where = "WHERE ci.paid = TRUE";
+    const params = [];
+    let paramIdx = 1;
+    if (data_inicio && data_fim) {
+      where += ` AND c.created_at BETWEEN $${paramIdx++} AND $${paramIdx++}`;
+      params.push(data_inicio, data_fim);
     }
-    // Consulta vendas no período
+    let order = "total_jogos DESC, u.name ASC";
+    if (order_by === "valor_gasto") order = "valor_gasto DESC, u.name ASC";
+    if (order_by === "total_jogos_asc") order = "total_jogos ASC, u.name ASC";
+    if (order_by === "valor_gasto_asc") order = "valor_gasto ASC, u.name ASC";
     const result = await db.query(
       `
       SELECT
-        g.title AS nome_jogo,
-        ci.quantity,
-        g.price AS valor_unitario,
-        (ci.quantity * g.price) AS valor_total,
+        u.user_id,
         u.name AS nome_cliente,
-        c.created_at AS data_compra
+        u.email,
+        COUNT(DISTINCT ci.game_id) AS total_jogos,
+        SUM(ci.quantity * g.price) AS valor_gasto
       FROM cart_items ci
       JOIN carts c ON ci.cart_id = c.cart_id
       JOIN users u ON c.user_id = u.user_id
       JOIN games g ON ci.game_id = g.game_id
-      WHERE ci.paid = TRUE
-        AND c.created_at BETWEEN $1 AND $2
-      ORDER BY c.created_at DESC
-    `,
-      [data_inicio, data_fim]
+      ${where}
+      GROUP BY u.user_id, u.name, u.email
+      ORDER BY ${order}
+      `,
+      params
     );
-
-    // Totais
-    const totalGeral = result.rows.reduce(
-      (acc, row) => acc + Number(row.valor_total),
-      0
-    );
-    const totalCompras = result.rows.length;
-
-    res.json({
-      vendas: result.rows,
-      totalGeral,
-      totalCompras,
-    });
+    res.json({ ranking: result.rows });
   } catch (err) {
     res
       .status(500)

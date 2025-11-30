@@ -15,19 +15,24 @@ exports.getRelatorio2 = async (req, res) => {
       const cats = categorias
         .split(",")
         .map((s) => s.trim())
-        .filter(Boolean);
+        .filter(Boolean)
+        .map(Number);
       if (cats.length > 0) {
         where += ` AND g.game_id IN (
           SELECT gc.game_id FROM game_categories gc
-          JOIN categories cat ON gc.category_id = cat.category_id
-          WHERE cat.name = ANY($${paramIdx}::text[])
+          WHERE gc.category_id = ANY($${paramIdx}::int[])
         )`;
         params.push(cats);
         paramIdx++;
       }
     }
-    const order =
-      order_by === "receita_gerada" ? "receita_gerada" : "total_vendas";
+    let order = "total_vendas DESC, g.title ASC";
+    if (order_by === "receita_gerada")
+      order = "receita_gerada DESC, g.title ASC";
+    if (order_by === "total_vendas_asc")
+      order = "total_vendas ASC, g.title ASC";
+    if (order_by === "receita_gerada_asc")
+      order = "receita_gerada ASC, g.title ASC";
     const result = await db.query(
       `
       SELECT
@@ -42,7 +47,7 @@ exports.getRelatorio2 = async (req, res) => {
       LEFT JOIN categories cat ON gc.category_id = cat.category_id
       ${where}
       GROUP BY g.game_id, g.title
-      ORDER BY ${order} DESC, g.title ASC
+      ORDER BY ${order}
       `,
       params
     );

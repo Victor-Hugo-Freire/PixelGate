@@ -37,15 +37,29 @@ async function showUserHeader() {
   const user = await getCurrentUser();
   if (user && user.user_id) {
     const headerActions = document.getElementById("header-actions");
+    const permissions = await fetch(
+      `${API_BASE_URL}/users/${user.user_id}/permissions`,
+      { credentials: "include" }
+    ).then((r) => (r.ok ? r.json() : []));
+    const hasReport = Array.isArray(permissions)
+      ? permissions.includes(19)
+      : false;
     headerActions.innerHTML = `
       <div class="user-dropdown">
         <button class="user-btn" id="userBtn">
           <img src="../../assets/icons/userIcon.svg" alt="Usuário" style="width:28px;height:28px;vertical-align:middle;">
-          <span style="font-weight:bold;color:var(--accent);font-size:1.1em;">${user.name}</span>
+          <span style="font-weight:bold;color:var(--accent);font-size:1.1em;">${
+            user.name
+          }</span>
           <span style="margin-left:6px;">▼</span>
         </button>
         <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
-          <a href="../../index.html" id="goHomeBtn">Voltar para área do usuário</a>
+          <a href="../../index.html">Voltar para área do usuário</a>
+          ${
+            hasReport
+              ? `<a href="../relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>\n<a href="../relatorio1/relatorio1.html">Relatório: Clientes que Mais Compraram</a>`
+              : ""
+          }
           <a href="#" id="logoutBtn">Logout</a>
         </div>
       </div>
@@ -60,10 +74,6 @@ async function showUserHeader() {
     document.body.addEventListener("click", () => {
       dropdown.style.display = "none";
     });
-    document.getElementById("goHomeBtn").onclick = (e) => {
-      e.preventDefault();
-      window.location.href = "../../index.html";
-    };
     document.getElementById("logoutBtn").onclick = async (e) => {
       e.preventDefault();
       await fetch(`${API_BASE_URL}/auth/logout`, {

@@ -111,11 +111,41 @@ INSERT INTO home_slider (slider_id, game_id, display_order) VALUES
   (4, 14, 4),
   (5, 15, 5);
 
+-- Inserindo carts (um carrinho por usuário)
+INSERT INTO carts (cart_id, user_id) VALUES 
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (4, 4),
+  (5, 5);
+
+-- Inserindo cart_items pagos (cada compra gera entrada na biblioteca)
+INSERT INTO cart_items (cart_id, game_id, quantity, paid) VALUES 
+  (1, 1, 1, TRUE), -- VHADM comprou Elden Ring
+  (1, 5, 1, TRUE), -- VHADM comprou God Of War Ragnarok
+  (1, 6, 1, TRUE), -- VHADM comprou Hogwarts Legacy
+  (1, 15, 1, TRUE), -- VHADM comprou Red Dead Redemption II
+  (2, 2, 1, TRUE), -- Lucas comprou Far Cry 3
+  (2, 3, 1, TRUE), -- Lucas comprou Ghost Of Tsushima
+  (3, 5, 1, TRUE), -- Maria comprou God Of War Ragnarok
+  (3, 6, 1, TRUE), -- Maria comprou Hogwarts Legacy
+  (4, 1, 1, TRUE), -- Pedro comprou Elden Ring
+  (4, 2, 1, TRUE), -- Pedro comprou Far Cry 3
+  (5, 4, 1, TRUE); -- Ana comprou God Of War
+
+-- Biblioteca dos usuários (deve refletir os cart_items pagos)
 INSERT INTO library (user_id, game_id, added_at) VALUES
   (1, 1, '2025-09-16 12:30:00'),
   (1, 5, '2025-09-16 12:31:00'),
   (1, 6, '2025-09-16 12:32:00'),
-  (1, 15, '2025-09-16 12:33:00');
+  (1, 15, '2025-09-16 12:33:00'),
+  (2, 2, '2025-09-16 12:34:00'),
+  (2, 3, '2025-09-16 12:35:00'),
+  (3, 5, '2025-09-16 12:36:00'),
+  (3, 6, '2025-09-16 12:37:00'),
+  (4, 1, '2025-09-16 12:38:00'),
+  (4, 2, '2025-09-16 12:39:00'),
+  (5, 4, '2025-09-16 12:40:00');
 
 INSERT INTO game_details (game_id, min_requirements, recommended_requirements) VALUES
   (1, 'Windows 10, i5-8400, 12GB RAM, GTX 1070', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
@@ -133,21 +163,3 @@ INSERT INTO game_details (game_id, min_requirements, recommended_requirements) V
   (13, 'Windows 7, i5-2400, 8GB RAM, GTX 660', 'Windows 10, i7-3770, 16GB RAM, GTX 970'),
   (14, 'Windows 10, i5-8400, 12GB RAM, GTX 1060', 'Windows 10, i7-8700K, 16GB RAM, RTX 2070'),
   (15, 'Windows 10, i5-2500K, 8GB RAM, GTX 970', 'Windows 10, i7-3770, 16GB RAM, RTX 2070');
-
-INSERT INTO carts (user_id) VALUES 
-(1),
-(2),
-(3),
-(4),
-(5);
-
-INSERT INTO cart_items (cart_id, game_id, quantity, paid) VALUES 
-  (1, 2, 1, FALSE),
-  (1, 4, 1, FALSE),
-  (2, 1, 2, TRUE),
-  (2, 3, 1, TRUE),
-  (3, 5, 1, TRUE),
-  (3, 6, 2, TRUE),
-  (4, 1, 1, TRUE),
-  (4, 2, 1, TRUE),
-  (5, 4, 1, TRUE);

@@ -69,8 +69,7 @@ async function showUserHeader() {
           <a href="../../index.html">Voltar para área do usuário</a>
           ${
             hasReport
-              ? `<a href="../relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>
-          <a href="../relatorio1/relatorio1.html">Relatório: Jogos Comprados por Período</a>`
+              ? `<a href="../relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>\n<a href="../relatorio1/relatorio1.html">Relatório: Clientes que Mais Compraram</a>`
               : ""
           }
           <a href="#" id="logoutBtn">Logout</a>
@@ -129,18 +128,43 @@ function showMensagem(msg, type = "erro") {
   }
 }
 
-// Torna o select de categoria múltiplo e corrige filtro para funcionar com IDs
+// Torna o select de categoria múltiplo, estilizado e seguro
+function updateCategorySelect(isAdmin) {
+  const categoriaSelect = document.getElementById("categoriaFiltro");
+  if (!categoriaSelect) return;
+  if (isAdmin) {
+    categoriaSelect.setAttribute("multiple", "multiple");
+    categoriaSelect.size = 5;
+    document.getElementById("categoriaHelper").style.display = "block";
+  } else {
+    categoriaSelect.removeAttribute("multiple");
+    categoriaSelect.size = 1;
+    document.getElementById("categoriaHelper").style.display = "none";
+  }
+}
+
 async function carregarCategorias() {
   const categorias = await fetchCategorias();
-  const select = document.getElementById("categoriaFiltro");
-  select.multiple = true;
-  select.size = Math.min(6, categorias.length + 1); // visual melhor
-  select.innerHTML = '<option value="">Todas</option>';
+  const container = document.getElementById("categoriasCheckboxes");
+  if (!container) return;
+  let html = `<label class='categoria-checkbox'><input type='checkbox' value='' checked> Todas</label>`;
   categorias.forEach((cat) => {
-    const opt = document.createElement("option");
-    opt.value = cat.category_id;
-    opt.textContent = cat.name;
-    select.appendChild(opt);
+    html += `<label class='categoria-checkbox'><input type='checkbox' value='${cat.category_id}'> ${cat.name}</label>`;
+  });
+  container.innerHTML = html;
+  // Lógica: se "Todas" for marcada, desmarca as outras e vice-versa
+  const todas = container.querySelector("input[value='']");
+  const outros = Array.from(
+    container.querySelectorAll("input[type='checkbox']:not([value=''])")
+  );
+  todas.addEventListener("change", () => {
+    if (todas.checked) outros.forEach((cb) => (cb.checked = false));
+  });
+  outros.forEach((cb) => {
+    cb.addEventListener("change", () => {
+      if (cb.checked) todas.checked = false;
+      if (!outros.some((c) => c.checked)) todas.checked = true;
+    });
   });
 }
 
@@ -157,27 +181,44 @@ function preencherAnos() {
 }
 
 function getFiltroPeriodo() {
-  const ano = document.getElementById("anoFiltro").value;
-  const mes = document.getElementById("mesFiltro").value;
+  const anoEl = document.getElementById("anoFiltro");
+  const mesEl = document.getElementById("mesFiltro");
+  if (!anoEl || !mesEl) return null;
+  const ano = anoEl.value;
+  const mes = mesEl.value;
   if (!ano) return null;
+  let data_inicio, data_fim;
   if (!mes) {
-    // Qualquer mês do ano
-    return {
-      data_inicio: `${ano}-01-01`,
-      data_fim: `${ano}-12-31`,
-    };
+    data_inicio = `${ano}-01-01`;
+    data_fim = `${ano}-12-31`;
+  } else {
+    data_inicio = `${ano}-${mes}-01`;
+    const ultimoDia = new Date(ano, mes, 0).getDate();
+    data_fim = `${ano}-${mes}-${ultimoDia}`;
   }
-  const data_inicio = `${ano}-${mes}-01`;
-  const ultimoDia = new Date(ano, mes, 0).getDate();
-  const data_fim = `${ano}-${mes}-${ultimoDia}`;
   return { data_inicio, data_fim };
 }
 
 function getSelectedCategories() {
-  const select = document.getElementById("categoriaFiltro");
-  return Array.from(select.selectedOptions)
-    .map((opt) => opt.value)
-    .filter((v) => v && v !== "");
+  const container = document.getElementById("categoriasCheckboxes");
+  if (!container) return [];
+  const todas = container.querySelector("input[value='']");
+  if (todas && todas.checked) return [];
+  return Array.from(
+    container.querySelectorAll("input[type='checkbox']:not([value='']):checked")
+  ).map((cb) => cb.value);
+}
+
+// Adiciona ordenação pelos menos vendidos/lucrativos
+function preencherOrderBy() {
+  const select = document.getElementById("orderByFiltro");
+  if (!select) return;
+  select.innerHTML = `
+    <option value="total_vendas">Mais vendidos</option>
+    <option value="total_vendas_asc">Menos vendidos</option>
+    <option value="receita_gerada">Mais lucrativos</option>
+    <option value="receita_gerada_asc">Menos lucrativos</option>
+  `;
 }
 
 async function buscarRelatorio(e) {
@@ -189,8 +230,11 @@ async function buscarRelatorio(e) {
     return;
   }
   const categorias = getSelectedCategories();
-  const orderBy = document.getElementById("orderByFiltro").value;
-  let url = `${API_BASE_URL}/relatorio2?data_inicio=${periodo.data_inicio}&data_fim=${periodo.data_fim}&order_by=${orderBy}`;
+  let orderBy = document.getElementById("orderByFiltro").value;
+  let orderParam = orderBy;
+  if (orderBy === "total_vendas_asc") orderParam = "total_vendas_asc";
+  if (orderBy === "receita_gerada_asc") orderParam = "receita_gerada_asc";
+  let url = `${API_BASE_URL}/relatorio2?data_inicio=${periodo.data_inicio}&data_fim=${periodo.data_fim}&order_by=${orderParam}`;
   if (categorias.length) {
     url += `&categorias=${categorias.join(",")}`;
   }
@@ -231,8 +275,22 @@ function renderTabela(dados) {
 // PDF/Impressão nativa
 async function exportarPDF() {
   const periodo = getFiltroPeriodo();
-  const categoria =
-    document.getElementById("categoriaFiltro").selectedOptions[0].textContent;
+  const container = document.getElementById("categoriasCheckboxes");
+  let categoriasSelecionadas = [];
+  if (container) {
+    const todas = container.querySelector("input[value='']");
+    if (todas && todas.checked) {
+      categoriasSelecionadas = ["Todas"];
+    } else {
+      categoriasSelecionadas = Array.from(
+        container.querySelectorAll(
+          "input[type='checkbox']:not([value='']):checked"
+        )
+      ).map((cb) => cb.parentElement.textContent.trim());
+      if (!categoriasSelecionadas.length) categoriasSelecionadas = ["Todas"];
+    }
+  }
+  const categoriasTexto = categoriasSelecionadas.join(", ");
   const orderBy =
     document.getElementById("orderByFiltro").selectedOptions[0].textContent;
   const tabela = document.getElementById("tabelaRelatorio");
@@ -240,9 +298,9 @@ async function exportarPDF() {
   const user = await getCurrentUser();
   let nomeRelatorio = `relatorio`;
   if (mes) {
-    nomeRelatorio += `_${mes}`;
+    nomeRelatorio += `_${periodo.data_inicio}_a_${periodo.data_fim}`;
   } else {
-    nomeRelatorio += `_anual`;
+    nomeRelatorio += `_${periodo.data_inicio}_a_${periodo.data_fim}`;
   }
   nomeRelatorio += `_jogos_vendidos.pdf`;
   // Cria uma nova janela só com a tabela e filtros
@@ -251,16 +309,16 @@ async function exportarPDF() {
   win.document.write('<link rel="stylesheet" href="../../global.css" />');
   win.document.write('<link rel="stylesheet" href="relatorio2.css" />');
   win.document.write("</head><body>");
-  win.document.write(`<h2>Relatório: Jogos Vendidos</h2>`);
   win.document.write(
-    `<div style="margin-bottom:1em;"><b>Período:</b> ${periodo.data_inicio} a ${periodo.data_fim} <b>Categoria:</b> ${categoria} <b>Ordenação:</b> ${orderBy}</div>`
-  );
-  win.document.write(tabela.outerHTML);
-  win.document.write(
-    `<div style="margin-top:1em;"><b>Relatório gerado por:</b> ${
+    `<div style='font-size:1.2em;font-weight:bold;margin-bottom:0.7em;'>Relatório gerado por: ${
       user ? user.name : "Usuário"
     }</div>`
   );
+  win.document.write(`<h2>Relatório: Jogos Vendidos</h2>`);
+  win.document.write(
+    `<div style=\"margin-bottom:1em;\"><b>Período:</b> ${periodo.data_inicio} a ${periodo.data_fim} <b>Categorias:</b> ${categoriasTexto} <b>Ordenação:</b> ${orderBy}</div>`
+  );
+  win.document.write(tabela.outerHTML);
   win.document.write("</body></html>");
   win.document.close();
   win.print();
@@ -270,11 +328,9 @@ async function exportarPDF() {
 document.addEventListener("DOMContentLoaded", async () => {
   if (!(await protectReportPage())) return;
   showUserHeader();
-  carregarCategorias();
+  await carregarCategorias();
   preencherAnos();
+  preencherOrderBy();
   document.getElementById("filtroForm").onsubmit = buscarRelatorio;
   document.getElementById("btnExportarPDF").onclick = exportarPDF;
-  document.getElementById("btnExportarPDF").disabled = true;
-  const select = document.getElementById("categoriaFiltro");
-  if (select) select.multiple = true;
 });

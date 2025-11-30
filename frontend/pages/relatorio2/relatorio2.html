@@ -8,12 +8,25 @@
     <link rel="stylesheet" href="relatorio2.css" />
   </head>
   <body>
-    <header>
-      <div class="header-content">
-        <a href="../../index.html" class="logo">PixelGate</a>
-        <div id="header-actions"></div>
+    <nav>
+      <div class="header-top">
+        <div class="logo">PixelGate</div>
+        <div class="header-actions" id="header-actions"></div>
       </div>
-    </header>
+      <div class="menu-bar">
+        <ul class="menu">
+          <li><a href="../../index.html">Loja</a></li>
+          <li>
+            <a href="../../pages/library/library.html" id="libraryLink"
+              >Biblioteca</a
+            >
+          </li>
+          <li>
+            <a href="../../pages/cart/cart.html" id="cartLink">Carrinho</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <main>
       <div id="mensagem"></div>
       <h1>Relatório: Jogos Mais Vendidos</h1>
@@ -25,6 +38,7 @@
         <div class="filtro-group">
           <label for="mesFiltro">Mês:</label>
           <select id="mesFiltro" name="mesFiltro">
+            <option value="">Qualquer mês</option>
             <option value="01">Janeiro</option>
             <option value="02">Fevereiro</option>
             <option value="03">Março</option>
@@ -40,15 +54,22 @@
           </select>
         </div>
         <div class="filtro-group">
-          <label for="categoriaFiltro">Categoria:</label>
-          <select id="categoriaFiltro" name="categoriaFiltro">
-            <option value="">Todas</option>
+          <label>Categorias:</label>
+          <div id="categoriasCheckboxes" class="categorias-checkboxes"></div>
+        </div>
+        <div class="filtro-group">
+          <label for="orderByFiltro">Ordenação:</label>
+          <select id="orderByFiltro" name="orderByFiltro">
+            <option value="total_vendas">Mais vendidos</option>
+            <option value="total_vendas_asc">Menos vendidos</option>
+            <option value="receita_gerada">Mais lucrativos</option>
+            <option value="receita_gerada_asc">Menos lucrativos</option>
           </select>
         </div>
         <button type="submit" class="btn-primary">Aplicar Filtro</button>
       </form>
       <div id="relatorioContainer" style="display: none">
-        <h2>Top 10 Jogos Mais Vendidos</h2>
+        <h2>Jogos Mais Vendidos</h2>
         <table id="tabelaRelatorio">
           <thead>
             <tr>
