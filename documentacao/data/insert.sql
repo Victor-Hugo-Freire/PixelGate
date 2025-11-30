@@ -1,50 +1,49 @@
+-- Limpeza das tabelas na ordem correta para evitar conflitos de FK
+TRUNCATE TABLE cart_items RESTART IDENTITY CASCADE;
+TRUNCATE TABLE carts RESTART IDENTITY CASCADE;
+TRUNCATE TABLE library RESTART IDENTITY CASCADE;
+TRUNCATE TABLE home_slider RESTART IDENTITY CASCADE;
+TRUNCATE TABLE game_details RESTART IDENTITY CASCADE;
+TRUNCATE TABLE game_categories RESTART IDENTITY CASCADE;
+TRUNCATE TABLE categories RESTART IDENTITY CASCADE;
+TRUNCATE TABLE games RESTART IDENTITY CASCADE;
+TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+TRUNCATE TABLE role_permissions RESTART IDENTITY CASCADE;
+TRUNCATE TABLE permissions RESTART IDENTITY CASCADE;
+TRUNCATE TABLE roles RESTART IDENTITY CASCADE;
+
 -- Inserindo roles
-INSERT INTO roles (name, description) VALUES
-  ('Client', 'Usuário comum que pode apenas comprar jogos e acessar sua biblioteca.'),
-  ('Administrator', 'Usuário com acesso total ao sistema, incluindo gerenciamento de jogos, usuários e painel administrativo.');
+INSERT INTO roles (role_id, name, description) VALUES
+  (1, 'Client', 'Usuário comum que pode apenas comprar jogos e acessar sua biblioteca.'),
+  (2, 'Administrator', 'Usuário com acesso total ao sistema, incluindo gerenciamento de jogos, usuários e painel administrativo.');
 
 -- Inserindo permissions
-INSERT INTO permissions (name, description) VALUES
-  ('add_game', 'Permite adicionar novos jogos ao sistema.'),
-  ('edit_game', 'Permite editar informações de jogos existentes.'),
-  ('delete_game', 'Permite excluir jogos do sistema.'),
-  ('add_user', 'Permite cadastrar novos usuários.'),
-  ('edit_user', 'Permite editar dados de usuários existentes.'),
-  ('delete_user', 'Permite excluir usuários do sistema.'),
-  ('access_admin_painel', 'Permite acessar o painel administrativo do sistema'),
-  ('delete_admin_user', 'Permite excluir usuários com role de administrador.'),
-  ('update_admin_user', 'Permite atualizar contas de administradores.'),
-  ('create_category', 'Criar categorias'),
-  ('edit_category', 'Editar categorias'),
-  ('delete_category', 'Deletar categorias'),
-  ('create_role', 'Permite criar roles'),
-  ('edit_role', 'Permite editar roles'),
-  ('delete_role', 'Permite deletar roles'),
-  ('create_game_details', 'Permite criar detalhes de jogos'),
-  ('edit_game_details', 'Permite editar detalhes de jogos'),
-  ('delete_game_details', 'Permite deletar detalhes de jogos');
+INSERT INTO permissions (permission_id, name, description) VALUES
+  (1, 'add_game', 'Permite adicionar novos jogos ao sistema.'),
+  (2, 'edit_game', 'Permite editar informações de jogos existentes.'),
+  (3, 'delete_game', 'Permite excluir jogos do sistema.'),
+  (4, 'add_user', 'Permite cadastrar novos usuários.'),
+  (5, 'edit_user', 'Permite editar dados de usuários existentes.'),
+  (6, 'delete_user', 'Permite excluir usuários do sistema.'),
+  (7, 'access_admin_painel', 'Permite acessar o painel administrativo do sistema'),
+  (8, 'delete_admin_user', 'Permite excluir usuários com role de administrador.'),
+  (9, 'update_admin_user', 'Permite atualizar contas de administradores.'),
+  (10, 'create_category', 'Criar categorias'),
+  (11, 'edit_category', 'Editar categorias'),
+  (12, 'delete_category', 'Deletar categorias'),
+  (13, 'create_role', 'Permite criar roles'),
+  (14, 'edit_role', 'Permite editar roles'),
+  (15, 'delete_role', 'Permite deletar roles'),
+  (16, 'create_game_details', 'Permite criar detalhes de jogos'),
+  (17, 'edit_game_details', 'Permite editar detalhes de jogos'),
+  (18, 'delete_game_details', 'Permite deletar detalhes de jogos'),
+  (19, 'view_reports', 'Permite visualizar e exportar relatórios administrativos de vendas.');
 
 -- Inserindo role_permissions (apenas Administrator tem todas as permissões)
 INSERT INTO role_permissions (role_id, permission_id) VALUES
-  (2, 1),
-  (2, 2),
-  (2, 3),
-  (2, 4),
-  (2, 5),
-  (2, 6),
-  (2, 7),
-  (2, 8),
-  (2, 9),
-  (2, 10),
-  (2, 11),
-  (2, 12),
-  (2, 13),
-  (2, 14),
-  (2, 15),
-  (2, 16),
-  (2, 17),
-  (2, 18);
-  
+  (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9),
+  (2, 10), (2, 11), (2, 12), (2, 13), (2, 14), (2, 15), (2, 16), (2, 17), (2, 18), (2, 19);
+
 -- Inserindo users
 INSERT INTO users (name, email, password_hash, role_id, created_at) VALUES
   ('VHADM', 'VHADM@gmail.com', '$2b$10$Ub8y.5mU5yxsJhknOyNmJ.7X8h9eFcejQpYhscAE2QfjP0WFl4s02', 2, '2025-09-16 12:00:00'),
@@ -80,26 +79,30 @@ INSERT INTO categories (name, description) VALUES
   ('Simulation', 'Jogos simuladores de vida, agricultura, etc.'),
   ('Party Game', 'Jogos multiplayer focados em diversão em grupo.');
 
--- Inserindo game_categories
+-- Inserindo game_categories (sem repetições, e só combinações válidas)
 INSERT INTO game_categories (game_id, category_id) VALUES
-  (1, 1),
-  (1, 2),
-  (2, 3),
-  (3, 2),
-  (3, 1),
-  (4, 2),
-  (5, 2),
-  (5, 1),
-  (6, 1),
-  (7, 4),
-  (8, 1),
-  (9, 5),
-  (10, 2),
-  (11, 6),
-  (12, 7),
-  (13, 2),
-  (14, 1),
-  (15, 2);
+  (1, 1), -- Elden Ring: RPG
+  (1, 2), -- Elden Ring: Action-Adventure
+  (2, 3), -- Far Cry 3: FPS
+  (2, 2), -- Far Cry 3: Action-Adventure
+  (3, 2), -- Ghost Of Tsushima: Action-Adventure
+  (3, 1), -- Ghost Of Tsushima: RPG
+  (4, 2), -- God Of War: Action-Adventure
+  (4, 1), -- God Of War: RPG
+  (5, 2), -- God Of War Ragnarok: Action-Adventure
+  (5, 1), -- God Of War Ragnarok: RPG
+  (5, 4), -- God Of War Ragnarok: Metroidvania
+  (6, 1), -- Hogwarts Legacy: RPG
+  (6, 3), -- Hogwarts Legacy: FPS
+  (7, 4), -- Hollow Knight: Metroidvania
+  (8, 1), -- Dark Souls III: RPG
+  (9, 5), -- Resident Evil 4: Survival Horror
+  (10, 2), -- Sekiro: Action-Adventure
+  (11, 6), -- Stardew Valley: Simulation
+  (12, 7), -- Among Us: Party Game
+  (13, 2), -- Batman Arkham Knight: Action-Adventure
+  (14, 1), -- Cyberpunk 2077: RPG
+  (15, 2); -- Red Dead Redemption II: Action-Adventure
 
 INSERT INTO home_slider (slider_id, game_id, display_order) VALUES
   (1, 1, 1),
@@ -138,5 +141,13 @@ INSERT INTO carts (user_id) VALUES
 (4),
 (5);
 
-INSERT INTO cart_items (cart_id, game_id, quantity) VALUES (1, 2, 1);
-INSERT INTO cart_items (cart_id, game_id, quantity) VALUES (1, 4, 1);
+INSERT INTO cart_items (cart_id, game_id, quantity, paid) VALUES 
+  (1, 2, 1, FALSE),
+  (1, 4, 1, FALSE),
+  (2, 1, 2, TRUE),
+  (2, 3, 1, TRUE),
+  (3, 5, 1, TRUE),
+  (3, 6, 2, TRUE),
+  (4, 1, 1, TRUE),
+  (4, 2, 1, TRUE),
+  (5, 4, 1, TRUE);

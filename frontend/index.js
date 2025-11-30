@@ -105,7 +105,7 @@ async function showUserHeader() {
   const headerActions = document.getElementById("header-actions");
   if (user && user.user_id) {
     const permissions = await getUserPermissions(user.user_id);
-    const isAdmin = permissions.includes(7);
+    const hasReport = permissions.includes(19);
     headerActions.innerHTML = `
       <div class="user-dropdown">
         <button class="user-btn" id="userBtn">
@@ -117,10 +117,12 @@ async function showUserHeader() {
         </button>
         <div class="user-dropdown-content" id="userDropdownContent" style="display:none;">
           ${
-            isAdmin
-              ? `<a href="pages/crud_users/users.html">Painel administrativo</a>`
+            hasReport
+              ? `<a href="pages/relatorio1/relatorio1.html">Relatório: Comprados por Período</a>
+          <a href="pages/relatorio2/relatorio2.html">Relatório: Mais Vendidos</a>`
               : ""
           }
+          <a href="pages/crud_users/users.html">Painel administrativo</a>
           <a href="#" id="logoutBtn">Logout</a>
         </div>
       </div>

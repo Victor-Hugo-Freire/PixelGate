@@ -209,6 +209,7 @@ async function showUserHeader() {
   if (user && user.user_id) {
     const permissions = await getUserPermissions(user.user_id);
     const isAdmin = permissions.includes(7);
+    const hasReport = permissions.includes(19);
     const headerActions = document.getElementById("header-actions");
     headerActions.innerHTML = `
       <div class="user-dropdown">
@@ -223,6 +224,12 @@ async function showUserHeader() {
           ${
             isAdmin
               ? `<a href="../crud_users/users.html">Painel administrativo</a>`
+              : ""
+          }
+          ${
+            hasReport
+              ? `<a href="../relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>
+          <a href="../relatorio1/relatorio1.html">Relatório: Jogos Comprados por Período</a>`
               : ""
           }
           <a href="#" id="logoutBtn">Logout</a>

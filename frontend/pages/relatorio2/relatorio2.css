@@ -1,0 +1,241 @@
+body {
+  background: var(--bg);
+  font-family: "Roboto", Arial, sans-serif;
+  margin: 0;
+  color: var(--text);
+}
+
+header {
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.5rem 0;
+  box-shadow: 0 2px 8px #0008;
+}
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+main {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: var(--surface);
+  border-radius: 10px;
+  box-shadow: 0 2px 16px #0008;
+  padding: 2rem 2.5rem 2.5rem 2.5rem;
+}
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+.filtro-form {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 1px 6px #0006;
+}
+.filtro-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+.filtro-form label {
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.filtro-form select,
+.filtro-form input {
+  margin-top: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid var(--muted);
+  border-radius: 5px;
+  font-size: 1rem;
+  background: var(--surface);
+  color: var(--text);
+}
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.user-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+.user-btn:hover {
+  background: var(--accent-2);
+}
+.user-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: var(--surface);
+  min-width: 220px;
+  box-shadow: 0 2px 8px #0008;
+  border-radius: 8px;
+  z-index: 10;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+}
+.user-dropdown-content a {
+  color: var(--text);
+  padding: 0.7rem 1.2rem;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.user-dropdown-content a:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.user-dropdown:hover .user-dropdown-content,
+.user-dropdown:focus-within .user-dropdown-content {
+  display: block;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn-primary:disabled {
+  background: var(--muted);
+  color: var(--bg);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-2);
+}
+#relatorioContainer {
+  margin-top: 2rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px #0008;
+}
+th,
+td {
+  padding: 0.8rem 0.5rem;
+  text-align: left;
+}
+th {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+tbody tr:nth-child(even) {
+  background: var(--bg);
+}
+tbody tr:hover {
+  background: var(--muted);
+  color: var(--bg);
+}
+.message {
+  margin-bottom: 1.2rem;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1.05rem;
+  box-shadow: 0 1px 4px #0008;
+}
+.message.sucesso {
+  background: #1a7f37;
+  color: #d1ffd6;
+  border: 1px solid #d1ffd6;
+}
+.message.erro {
+  background: #d7263d;
+  color: #000000;
+  border: 1px solid #ffd1d1;
+}
+.message-container-flutuante {
+  position: fixed;
+  top: 32px;
+  right: 32px;
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 400px;
+  pointer-events: none;
+  display: none;
+}
+.message-container-flutuante .message {
+  animation: slideIn 0.4s;
+  margin-bottom: 0.5em;
+  box-shadow: 0 2px 12px #0006;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media (max-width: 700px) {
+  main {
+    padding: 1rem 0.5rem;
+  }
+  .header-content {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .filtro-form {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+}
+@media print {
+  header,
+  .filtro-form,
+  #btnExportarPDF,
+  #mensagem {
+    display: none !important;
+  }
+  main {
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+}
