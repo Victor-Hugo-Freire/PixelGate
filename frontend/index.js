@@ -119,7 +119,7 @@ async function showUserHeader() {
           ${
             hasReport
               ? `<a href="pages/relatorio1/relatorio1.html">Relatório: Clientes que Mais Compraram</a>
-          <a href="pages/relatorio2/relatorio2.html">Relatório: Mais Vendidos</a>`
+          <a href="pages/relatorio2/relatorio2.html">Relatório: Jogos Mais Vendidos</a>`
               : ""
           }
           <a href="pages/crud_users/users.html">Painel administrativo</a>

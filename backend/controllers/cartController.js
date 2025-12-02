@@ -13,13 +13,17 @@ exports.getByUser = async (req, res) => {
       return res.json([]); // Carrinho vazio
     }
     const cart_id = cartResult.rows[0].cart_id;
-    // Busca os itens do carrinho
+    // Busca os itens do carrinho: apenas paid = false e que NÃO estão na biblioteca
     const itemsResult = await db.query(
       `SELECT ci.item_id, ci.quantity, g.*
          FROM cart_items ci
          JOIN games g ON ci.game_id = g.game_id
-        WHERE ci.cart_id = $1`,
-      [cart_id]
+        WHERE ci.cart_id = $1
+          AND ci.paid = FALSE
+          AND NOT EXISTS (
+            SELECT 1 FROM library l WHERE l.user_id = $2 AND l.game_id = ci.game_id
+          )`,
+      [cart_id, user_id]
     );
     res.json(itemsResult.rows);
   } catch (err) {
