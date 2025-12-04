@@ -7,7 +7,9 @@ O sistema possui painel administrativo completo, autenticação, controle de per
 
 # Relatório Anual de Aprendizagem – DW1
 
-Durante o desenvolvimento do projeto da disciplina de DW1, pude aprofundar meus conhecimentos principalmente em backend, rotas e modelagem de banco de dados relacional. O projeto envolveu a criação de uma plataforma web para gerenciamento de jogos, usuários, permissões, categorias e vendas, com painel administrativo, autenticação, controle de permissões e CRUDs.
+Durante o desenvolvimento do projeto da disciplina de DW1, pude aprofundar meus conhecimentos principalmente em backend, rotas e modelagem de banco de dados relacional. Os temas dos projetos eram livres: no 1º/2º bimestre desenvolvi um sistema de filmes (VHFLIX), e no 3º/4º bimestre optei por fazer um sistema de jogos(PixelGate), que me agradou muito mais.
+
+O projeto envolveu a criação de uma plataforma web para gerenciamento de jogos, usuários, permissões, categorias e vendas, com painel administrativo, autenticação, controle de permissões e CRUDs.
 
 ## Experiências por Bimestre
 
@@ -22,7 +24,7 @@ Consegui evoluir bastante. Os modelos e exemplos oferecidos pelo professor foram
 
 ## Experiência com IA
 
-A experiência com IA foi marcante. No início, tive dificuldades com algumas ferramentas, mas ao longo do ano me adaptei e passei a preferir o GitHub Copilot para programação. O Copilot se mostrou eficiente para acelerar tarefas repetitivas, sugerir trechos de código e ajudar na sintaxe, principalmente no backend. A IA foi mais útil para automação de rotinas e geração de código padrão, mas sempre precisei revisar e adaptar as sugestões para garantir o funcionamento correto do sistema.
+A experiência com IA foi marcante. No início, tive dificuldades com algumas ferramentas, mas ao longo do ano me adaptei e passei a preferir o GitHub Copilot para programação. O Copilot se mostrou eficiente para acelerar tarefas repetitivas, sugerir trechos de código e ajudar na sintaxe, principalmente no backend. A IA foi mais útil para automação de rotinas e geração de código padrão, mas sempre precisei revisar e adaptar as sugestões para garantir o funcionamento correto do sistema. Por conta do uso intenso de IA, o aprendizado foi um pouco superficial, pois nem sempre entendi exatamente o que cada linha fazia, mas consegui compreender o funcionamento geral do projeto.
 
 ## Preferências
 
